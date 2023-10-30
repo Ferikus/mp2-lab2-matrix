@@ -31,12 +31,23 @@ TEST(TVector, can_create_copied_vector)
 
 TEST(TVector, copied_vector_is_equal_to_source_one)
 {
-  ADD_FAILURE();
+	TVector<int> v1(4);
+	TVector<int> v2(v1);
+
+	EXPECT_EQ(v1, v2);
 }
 
 TEST(TVector, copied_vector_has_its_own_memory)
 {
-  ADD_FAILURE();
+	TVector<int>* v;
+	v = new TVector<int>(10); // [] - an array of 10 elements, () - an element itself
+	for (int i = 0; i < (*v).GetSize(); i++) (*v)[i] = 1;
+	TVector<int> vc(*v);
+	delete v;
+	TVector<int> res(10);
+	for (int i = 0; i < res.GetSize(); i++) res[i] = 1;
+
+	EXPECT_EQ(res, vc);
 }
 
 TEST(TVector, can_get_size)
