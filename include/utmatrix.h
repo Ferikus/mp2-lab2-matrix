@@ -114,13 +114,15 @@ bool TVector<T>::operator!=(const TVector &v) const
 template <class T> // присваивание
 TVector<T>& TVector<T>::operator=(const TVector &v)
 {
-	if (Size != v.Size) {
-		delete[] pVector;
-		Size = v.Size;
-		pVector = new T[Size];
-	}
-	for (int i = 0; i < Size; i++) {
-		pVector[i] = v.pVector[i];
+	if (this != &v) {
+		if (Size != v.Size) {
+			delete[] pVector;
+			Size = v.Size;
+			pVector = new T[Size];
+		}
+		for (int i = 0; i < Size; i++) {
+			pVector[i] = v.pVector[i];
+		}
 	}
 	return *this;
 } /*-------------------------------------------------------------------------*/
@@ -237,10 +239,10 @@ TMatrix<T>::TMatrix(const TVector<TVector<T> > &mt):
 template <class T> // сравнение
 bool TMatrix<T>::operator==(const TMatrix<T> &mt) const
 {
-	if (Size != m.Size) return false;
+	if (Size != mt.Size) return false;
 	else {
 		for (int i = 0; i < Size; i++) {
-			if (pVector[i] != m.pVector[i]) return false;
+			if (pVector[i] != mt.pVector[i]) return false;
 		}
 	}
 	return true;
