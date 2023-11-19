@@ -52,9 +52,10 @@ TEST(TVector, copied_vector_has_its_own_memory)
 
 TEST(TVector, can_get_size)
 {
-  TVector<int> v(4);
+	TVector<int> v(4);
 
-  EXPECT_EQ(4, v.GetSize());
+	ASSERT_NO_THROW(v.GetSize());
+	EXPECT_EQ(4, v.GetSize());
 }
 
 TEST(TVector, can_get_start_index)

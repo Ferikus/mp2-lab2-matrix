@@ -63,10 +63,13 @@ template <class T>
 TVector<T>::TVector(int s, int si)
 {
 	if (s < 0 || s > MAX_VECTOR_SIZE) throw "Wrong vector size";
-	if (si < 0 || si >= s) throw "Wrong StartIndex";
+	if (si < 0) throw "Wrong StartIndex";
 	Size = s;
 	StartIndex = si;
 	pVector = new T[Size];
+	for (int i = 0; i < Size; i++) {
+		pVector[i] = 0;
+	}
 
 } /*-------------------------------------------------------------------------*/
 
@@ -89,7 +92,7 @@ TVector<T>::~TVector()
 template <class T> // доступ
 T& TVector<T>::operator[](int pos)
 {
-	if (pos < 0 || pos > MAX_VECTOR_SIZE) throw "Wrong index";
+	if (pos - StartIndex < 0 || pos - StartIndex >= Size) throw "bad index";
 	return pVector[pos - StartIndex];
 } /*-------------------------------------------------------------------------*/
 
@@ -279,7 +282,6 @@ template <class T> // вычитание
 TMatrix<T> TMatrix<T>::operator-(const TMatrix<T> &mt)
 {
 	return TVector<TVector<T> >::operator-(mt);
-
 } /*-------------------------------------------------------------------------*/
 
 // TVector О3 Л2 П4 С6
