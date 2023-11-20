@@ -52,12 +52,14 @@ TEST(TMatrix, copied_matrix_has_its_own_memory)
 {
 	TMatrix<int>* m = new TMatrix<int>(5);
 	for (int i = 0; i < (*m).GetSize(); i++)
-		for (int j = 0; j < (*m).GetSize(); j++)
+		for (int j = 0; j < (*m)[i].GetSize(); j++)
 			(*m)[i][j] = 1;
 	TMatrix<int> mc(*m);
 	delete m;
 	TMatrix<int> res(5);
-	for (int i = 0; i < res.GetSize(); i++) res[i] = 1;
+	for (int i = 0; i < res.GetSize(); i++)
+		for (int j = 0; j < res[i].GetSize(); j++)
+			res[i][j] = 1;
 
 	EXPECT_EQ(res, mc);
 }
@@ -104,7 +106,7 @@ TEST(TMatrix, assign_operator_change_matrix_size)
 	TMatrix<int> m(3);
 	TMatrix<int> m2(5);
 	m = m2;
-	EXPECT_EQ(8, m.GetSize());
+	EXPECT_EQ(5, m.GetSize());
 }
 
 TEST(TMatrix, compare_equal_matrices_return_true)
@@ -112,8 +114,12 @@ TEST(TMatrix, compare_equal_matrices_return_true)
 	TMatrix<int> m1(3);
 	TMatrix<int> m2(3);
 	for (int i = 0; i < m1.GetSize(); i++) {
-		for (int j = 0; j < m1.GetSize(); j++) {
+		for (int j = 0; j < m1[i].GetSize(); j++) {
 			m1[i][j] = 1;
+		}
+	}
+	for (int i = 0; i < m2.GetSize(); i++) {
+		for (int j = 0; j < m2[i].GetSize(); j++) {
 			m2[i][j] = 1;
 		}
 	}
@@ -142,7 +148,7 @@ TEST(TMatrix, can_add_matrices_with_equal_size)
 	TMatrix<int> m2(3);
 	TMatrix<int> m3(3);
 	for (int i = 0; i < m1.GetSize(); i++) {
-		for (int j = 0; j < m1.GetSize(); j++) {
+		for (int j = 0; j < m1[i].GetSize(); j++) {
 			m1[i][j] = 1;
 			m2[i][j] = 2;
 			m3[i][j] = 3;
@@ -167,7 +173,7 @@ TEST(TMatrix, can_subtract_matrices_with_equal_size)
 	TMatrix<int> m2(3);
 	TMatrix<int> m3(3);
 	for (int i = 0; i < m1.GetSize(); i++) {
-		for (int j = 0; j < m1.GetSize(); j++) {
+		for (int j = 0; j < m1[i].GetSize(); j++) {
 			m1[i][j] = 3;
 			m2[i][j] = 2;
 			m3[i][j] = 1;
